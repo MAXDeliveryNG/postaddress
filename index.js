@@ -1,175 +1,191 @@
-var _ = require('underscore');
+'use strict'
 
-var parser = module.exports = {};
+const _ = require('underscore')
+const parser = module.exports = {}
+const country = require('./country')
 
-parser.parseName = function (name) {
-    var salutations = ['mr', 'master', 'mister', 'mrs', 'miss', 'ms', 'dr', 'prof', 'rev', 'fr', 'judge', 'honorable', 'hon'];
-    var suffixes = ['i', 'ii', 'iii', 'iv', 'v', 'senior', 'junior', 'jr', 'sr', 'phd', 'apr', 'rph', 'pe', 'md', 'ma', 'dmd', 'cme'];
-    var compound = ['vere', 'von', 'van', 'de', 'del', 'della', 'der', 'di', 'da', 'pietro', 'vanden', 'du', 'st.', 'st', 'la', 'lo', 'ter', 'bin', 'ibn', 'te', 'ten', 'op', 'ben'];
 
-    var parts = name.trim().split(/\s+/);
-		var attrs = {};
+const capitalize = str => str.length ? str[0].toUpperCase() + str.substr(1).toLowerCase() : ''
+
+
+parser.parse_name = function(name) {
+
+    let salutations = ['mr', 'master', 'mister', 'mrs', 'miss', 'ms', 'dr', 'prof', 'rev', 'fr', 'judge', 'honorable', 'hon', 'chief', 'hrh', 'igew', 'eze', 'oba', 'ogbeni', 'aare']
+    let suffixes = ['i', 'ii', 'iii', 'iv', 'v', 'senior', 'junior', 'jr', 'sr', 'phd', 'apr', 'rph', 'pe', 'md', 'ma', 'dmd', 'cme']
+    let compound = ['vere', 'von', 'van', 'de', 'del', 'della', 'der', 'di', 'da', 'pietro', 'vanden', 'du', 'st.', 'st', 'la', 'lo', 'ter', 'bin', 'ibn', 'te', 'ten', 'op', 'ben']
+
+    let parts = name.trim().split(/\s+/)
+    let attrs = {}
 
     if (!parts.length) {
-        return attrs;
+        return attrs
     }
 
-    if ( parts.length === 1 ) {
-        attrs.firstName = parts[0];
+    if (parts.length === 1) {
+        attrs.first_name = parts[0]
     }
 
     //handle suffix first always, remove trailing comma if there is one
-    if ( parts.length > 1 && _.indexOf(suffixes, _.last(parts).toLowerCase().replace(/\./g, '')) > -1) {
-        attrs.suffix = parts.pop();
-        parts[parts.length-1] = _.last(parts).replace(',', '');
+    if (parts.length > 1 && _.indexOf(suffixes, _.last(parts).toLowerCase().replace(/\./g, '')) > -1) {
+        attrs.suffix = parts.pop()
+        parts[parts.length - 1] = _.last(parts).replace(',', '')
     }
 
     //look for a comma to know we have last name first format
-    var firstNameFirstFormat = _.every(parts, function(part) {
-        return part.indexOf(',') === -1;
+    let first_name_first_format = _.every(parts, function(part) {
+        return part.indexOf(',') === -1
     })
 
-    if (!firstNameFirstFormat) {
-    //last name first format
-    //assuming salutations are never used in this format
+    if (!first_name_first_format) {
+        //last name first format
+        //assuming salutations are never used in this format
 
-        //tracker variable for where first name begins in parts array
-        var firstNameIndex;
+        //tracker letiable for where first name begins in parts array
+        let first_name_index
 
         //location of first comma will separate last name from rest
         //join all parts leading to first comma as last name
-        var lastName = _.reduce(parts, function (lastName, current, index) {
-            if (!Array.isArray(lastName)) {
-                return lastName;
+        let last_name = _.reduce(parts, function(last_name, current, index) {
+            if (!Array.isArray(last_name)) {
+                return last_name
             }
             if (current.indexOf(',') === -1) {
-                lastName.push(current)
-                return lastName;
+                last_name.push(current)
+                return last_name
             } else {
-                current = current.replace(',', '');
-                lastName.push(current);
-                firstNameIndex = index + 1;
-                return lastName.join(' ');
+                current = current.replace(',', '')
+                last_name.push(current)
+                first_name_index = index + 1
+                return last_name.join(' ')
             }
-        }, []);
+        }, [])
 
-        attrs.lastName = lastName;
+        attrs.last_name = last_name
 
-        var remainingParts = parts.slice(firstNameIndex);
-        if (remainingParts.length > 1) {
-            attrs.firstName = remainingParts.shift();
-            attrs.middleName = remainingParts.join(' ');
-        } else if (remainingParts.length) {
-            attrs.firstName = remainingParts[0];
+        let remaining_parts = parts.slice(first_name_index)
+        if (remaining_parts.length > 1) {
+            attrs.first_name = remaining_parts.shift()
+            attrs.middle_name = remaining_parts.join(' ')
+        } else if (remaining_parts.length) {
+            attrs.first_name = remaining_parts[0]
         }
 
         //create full name from attrs object
-        var nameWords = [];
-        if (attrs.firstName) {
-            nameWords.push(attrs.firstName);
+        let name_words = []
+        if (attrs.first_name) {
+            name_words.push(attrs.first_name)
         }
-        if (attrs.middleName) {
-            nameWords.push(attrs.middleName)
+        if (attrs.middle_name) {
+            name_words.push(attrs.middle_name)
         }
-        nameWords.push(attrs.lastName)
+        name_words.push(attrs.last_name)
         if (attrs.suffix) {
-            nameWords.push(attrs.suffix);
+            name_words.push(attrs.suffix)
         }
-        attrs.fullName = nameWords.join(' ');
+        attrs.full_name = name_words.join(' ')
 
-        
+
     } else {
-    //first name first format
+        //first name first format
 
 
-        if ( parts.length > 1 && _.indexOf(salutations, _.first(parts).toLowerCase().replace(/\./g, '')) > -1) {
-            attrs.salutation = parts.shift();
-            attrs.firstName = parts.shift();
+        if (parts.length > 1 && _.indexOf(salutations, _.first(parts).toLowerCase().replace(/\./g, '')) > -1) {
+            attrs.salutation = parts.shift()
+            attrs.first_name = parts.shift()
         } else {
-            attrs.firstName = parts.shift();
+            attrs.first_name = parts.shift()
         }
 
-        attrs.lastName  = parts.length ? parts.pop() : '';
+        attrs.last_name = parts.length ? parts.pop() : ''
 
         // test for compound last name, we reverse because middle name is last bit to be defined.
-        // We already know lastname, so check next word if its part of a compound last name.
-        var revParts = parts.slice(0).reverse();
-				var compoundParts = [];
+        // We already know last_name, so check next word if its part of a compound last name.
+        let rev_parts = parts.slice(0).reverse()
+        let compound_parts = []
 
-        _.every(revParts, function(part, i, all){
-            var test = part.toLowerCase().replace(/\./g, '');
+        _.every(rev_parts, function(part, i, all) {
+            let test = part.toLowerCase().replace(/\./g, '')
 
-            if (_.indexOf(compound, test) > -1 ) {
-                compoundParts.push(part);
+            if (_.indexOf(compound, test) > -1) {
+                compound_parts.push(part)
 
-                return true;
+                return true
             }
 
             //break on first non compound word
-            return false;
-        });
+            return false
+        })
 
         //join compound parts with known last name
-        if ( compoundParts.length ) {
-            attrs.lastName = compoundParts.reverse().join(' ') + ' ' + attrs.lastName;
+        if (compound_parts.length) {
+            attrs.last_name = compound_parts.reverse().join(' ') + ' ' + attrs.last_name
 
-            parts = _.difference(parts, compoundParts);
+            parts = _.difference(parts, compound_parts)
         }
 
-        if ( parts.length ) {
-            attrs.middleName = parts.join(' ');
+        if (parts.length) {
+            attrs.middle_name = parts.join(' ')
         }
 
-        //remove comma like "<lastName>, Jr."
-        if ( attrs.lastName ) {
-            attrs.lastName = attrs.lastName.replace(',', '');
+        //remove comma like "<last_name>, Jr."
+        if (attrs.last_name) {
+            attrs.last_name = attrs.last_name.replace(',', '')
         }
 
         //save a copy of original
-        attrs.fullName = name;
+        attrs.full_name = name
 
     }
-    //console.log('attrs:', JSON.stringify(attrs));
-    return attrs;
-};
+    //console.log('attrs:', JSON.stringify(attrs))
+    return attrs
+}
 
-parser.getFullestName = function(str){
-    var name = str;
-		var names = [];
+parser.get_fullest_name = function(str) {
+    let name = str
+    let names = []
 
-    //find fullname from strings like 'Jon and Sue Doyle'
-    if ( name.indexOf('&') > -1 || name.toLowerCase().indexOf(' and ') > -1 ) {
-        names = name.split(/\s+(?:and|&)\s+/gi);
+    //find full_name from strings like 'Jon and Sue Doyle'
+    if (name.indexOf('&') > -1 || name.toLowerCase().indexOf(' and ') > -1) {
+        names = name.split(/\s+(?:and|&)\s+/gi)
 
         //pluck the name with the most parts (first, middle, last) from the array.
         //will grab 'Sue Doyle' in 'Jon & Sue Anne Doyle'
-        if ( names.length ) {
+        if (names.length) {
             name = names.sort(function(a, b) {
-                return b.split(/\s+/).length - a.split(/\s+/).length;
-            })[0];
+                return b.split(/\s+/).length - a.split(/\s+/).length
+            })[0]
         }
     }
 
-    return name;
-};
+    return name
+}
 
-parser.parseAddress = function(str){
+parser.parse_address = function(str) {
     //416 W. Manchester Blvd., Inglewood, CA  90301
-    var parts = str.split(/,\s+/).reverse();
-		var stateZip;
-		var city;
-		var address = {};
+    let parts = str.split(/,\s+/).reverse()
 
-    stateZip = parts[0].split(/\s+/);
-    parts.shift();
+    let others
+    let city
+    let address = {}
+    others = parts[0].split(/\s+/)
+    parts.shift()
 
-    city = parts.shift();
+    city = parts.shift()
 
-    address.address = parts.reverse().join(', ');
-    address.city = city;
-    address.state = stateZip[0];
-    address.zip = stateZip[1];
-    address.fullAddress = str;
+    address.address = parts.reverse().join(', ')
+    address.city = city
+    address.state = others[0]
 
-    return address;
-};
+    const last = others[1]
+
+    if (Number.isSafeInteger(parseFloat(last))) {
+        address.zip = last
+    } else {
+        address.country = country[capitalize(last)]
+    }
+
+
+    address.full_address = str
+
+    return address
+}

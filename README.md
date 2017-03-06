@@ -1,6 +1,8 @@
 postaddress
 =========
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/MAXDeliveryNG/postaddress.svg)](https://greenkeeper.io/)
+
 [![NPM](https://nodei.co/npm/postaddress.png)](https://nodei.co/npm/postaddress/)
 
 [![Build Status](https://travis-ci.org/chovy/postaddress.svg?branch=master)](https://travis-ci.org/chovy/postaddress) [![Requirements Status](https://requires.io/github/chovy/postaddress/requirements.png?branch=master)](https://requires.io/github/chovy/postaddress/requirements/?branch=master)

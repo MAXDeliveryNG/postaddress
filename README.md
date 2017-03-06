@@ -3,7 +3,7 @@ postaddress
 
 [![NPM](https://nodei.co/npm/postaddress.png)](https://nodei.co/npm/postaddress/)
 
-[![Build Status](https://travis-ci.org/chovy/postaddress.svg?branch=master)](https://travis-ci.org/chovy/postaddress) [![Requirements Status](https://requires.io/github/chovy/postaddress/requirements.png?branch=master)](https://requires.io/github/chovy/postaddress/requirements/?branch=master)
+[![Build Status](https://travis-ci.org/MAXDeliveryNG/postaddress.svg?branch=master)](https://travis-ci.org/MAXDeliveryNG/postaddress) [![Requirements Status](https://requires.io/github/MAXDeliveryNG/postaddress/requirements.png?branch=master)](https://requires.io/github/MAXDeliveryNG/postaddress/requirements/?branch=master)
 
 Parse a human name string into salutation, first name, middle name, last name, suffix.
 

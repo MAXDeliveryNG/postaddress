@@ -8,7 +8,7 @@ const country = require('./country')
 const capitalize = str => str.length ? str[0].toUpperCase() + str.substr(1).toLowerCase() : ''
 
 
-parser.parse_name = function(name) {
+parser.name = function(name) {
 
     let salutations = ['mr', 'master', 'mister', 'mrs', 'miss', 'ms', 'dr', 'prof', 'rev', 'fr', 'judge', 'honorable', 'hon', 'chief', 'hrh', 'igew', 'eze', 'oba', 'ogbeni', 'aare']
     let suffixes = ['i', 'ii', 'iii', 'iv', 'v', 'senior', 'junior', 'jr', 'sr', 'phd', 'apr', 'rph', 'pe', 'md', 'ma', 'dmd', 'cme']
@@ -160,7 +160,7 @@ parser.get_fullest_name = function(str) {
     return name
 }
 
-parser.parse_address = function(str) {
+parser.address = function(str) {
     //416 W. Manchester Blvd., Inglewood, CA  90301
     let parts = str.split(/,\s+/).reverse()
 

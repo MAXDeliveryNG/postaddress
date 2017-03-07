@@ -10,7 +10,7 @@
 
 var chai = require('chai');
 var expect = chai.expect;
-var human = require('..');
+var parser = require('..');
 
 
 // `describe` makes a "suite" of tests; think of them as a group.
@@ -21,138 +21,138 @@ describe('Parsing names', function() {
             name: 'Mr. William R. Hearst, III',
             result: {
                 salutation: 'Mr.',
-                firstName: 'William',
-                middleName: 'R.',
-                lastName: 'Hearst',
+                first_name: 'William',
+                middle_name: 'R.',
+                last_name: 'Hearst',
                 suffix: 'III',
-                fullName: 'Mr. William R. Hearst, III'
+                full_name: 'Mr. William R. Hearst, III'
             }
-        },{
+        }, {
             name: 'William Randolph Hearst',
             result: {
-                firstName: 'William',
-                lastName: 'Hearst',
-                middleName: 'Randolph',
-                fullName: 'William Randolph Hearst'
+                first_name: 'William',
+                last_name: 'Hearst',
+                middle_name: 'Randolph',
+                full_name: 'William Randolph Hearst'
             }
         }, {
             name: 'William R. De La Cruz',
             result: {
-                firstName: 'William',
-                lastName: 'De La Cruz',
-                middleName: 'R.',
-                fullName: 'William R. De La Cruz'
+                first_name: 'William',
+                last_name: 'De La Cruz',
+                middle_name: 'R.',
+                full_name: 'William R. De La Cruz'
             }
         }, {
             name: 'Mr. William R. De La Cruz III',
             result: {
                 salutation: 'Mr.',
-                firstName: 'William',
+                first_name: 'William',
                 suffix: 'III',
-                lastName: 'De La Cruz',
-                middleName: 'R.',
-                fullName: 'Mr. William R. De La Cruz III'
+                last_name: 'De La Cruz',
+                middle_name: 'R.',
+                full_name: 'Mr. William R. De La Cruz III'
             }
         }, {
             name: 'William De Cruz',
             result: {
-                firstName: 'William',
-                lastName: 'De Cruz',
-                fullName: 'William De Cruz'
+                first_name: 'William',
+                last_name: 'De Cruz',
+                full_name: 'William De Cruz'
             }
         }, {
             name: 'William De La Cruz',
             result: {
-                firstName: 'William',
-                lastName: 'De La Cruz',
-                fullName: 'William De La Cruz'
+                first_name: 'William',
+                last_name: 'De La Cruz',
+                full_name: 'William De La Cruz'
             }
         }, {
-			name: 'Mr. William R. Hugh Calum De La Cruz III',
-			result: {
-				salutation: 'Mr.',
-				firstName: 'William',
-				suffix: 'III',
-				lastName: 'De La Cruz',
-				middleName: 'R. Hugh Calum',
-				fullName: 'Mr. William R. Hugh Calum De La Cruz III'
-			}
+            name: 'Mr. William R. Hugh Calum De La Cruz III',
+            result: {
+                salutation: 'Mr.',
+                first_name: 'William',
+                suffix: 'III',
+                last_name: 'De La Cruz',
+                middle_name: 'R. Hugh Calum',
+                full_name: 'Mr. William R. Hugh Calum De La Cruz III'
+            }
 		}, {
-			name: 'William A. B. De La Cruz',
-			result: {
-				firstName: 'William',
-				middleName: 'A. B.',
-				lastName: 'De La Cruz',
-				fullName: 'William A. B. De La Cruz'
-			}
+            name: 'William A. B. De La Cruz',
+            result: {
+                first_name: 'William',
+                middle_name: 'A. B.',
+                last_name: 'De La Cruz',
+                full_name: 'William A. B. De La Cruz'
+            }
 		}, {
-			name: 'James Hugh Calum Laurie',
-			result: {
-				firstName: 'James',
-				middleName: 'Hugh Calum',
-				lastName: 'Laurie',
-				fullName: 'James Hugh Calum Laurie'
-			}
+            name: 'James Hugh Calum Laurie',
+            result: {
+                first_name: 'James',
+                middle_name: 'Hugh Calum',
+                last_name: 'Laurie',
+                full_name: 'James Hugh Calum Laurie'
+            }
 		}, {
-			name: 'Kiefer William Frederick Dempsey George Rufus Sutherland',
-			result: {
-				firstName: 'Kiefer',
-				middleName: 'William Frederick Dempsey George Rufus',
-				lastName: 'Sutherland',
-				fullName: 'Kiefer William Frederick Dempsey George Rufus Sutherland'
-			}
+            name: 'Kiefer William Frederick Dempsey George Rufus Sutherland',
+            result: {
+                first_name: 'Kiefer',
+                middle_name: 'William Frederick Dempsey George Rufus',
+                last_name: 'Sutherland',
+                full_name: 'Kiefer William Frederick Dempsey George Rufus Sutherland'
+            }
 		}, {
             name: 'William Hearst',
             result: {
-                firstName: 'William',
-                lastName: 'Hearst',
-                fullName: 'William Hearst'
+                first_name: 'William',
+                last_name: 'Hearst',
+                full_name: 'William Hearst'
             }
         }, {
             name: 'William Hearst Jr',
             result: {
-                firstName: 'William',
+                first_name: 'William',
                 suffix: 'Jr',
-                lastName: 'Hearst',
-                fullName: 'William Hearst Jr'
+                last_name: 'Hearst',
+                full_name: 'William Hearst Jr'
             }
         }, {
             name: 'Hearst, William Jr',
             result: {
-                firstName: 'William',
+                first_name: 'William',
                 suffix: 'Jr',
-                lastName: 'Hearst',
-                fullName: 'William Hearst Jr'
+                last_name: 'Hearst',
+                full_name: 'William Hearst Jr'
             }
         }, {
             name: 'Hearst, William Randolph',
             result: {
-                firstName: 'William',
-                lastName: 'Hearst',
-                middleName: 'Randolph',
-                fullName: 'William Randolph Hearst'
+                first_name: 'William',
+                last_name: 'Hearst',
+                middle_name: 'Randolph',
+                full_name: 'William Randolph Hearst'
             }
         }, {
             name: 'Hearst, William, M.D.',
             result: {
-                firstName: 'William',
+                first_name: 'William',
                 suffix: 'M.D.',
-                lastName: 'Hearst',
-                fullName: 'William Hearst M.D.'
+                last_name: 'Hearst',
+                full_name: 'William Hearst M.D.'
             }
         }, {
             name: 'William',
             result: {
-                firstName: 'William',
-                lastName: '',
-                fullName: 'William'
+                first_name: 'William',
+                last_name: '',
+                full_name: 'William'
             }
         }, {
             name: '',
             result: {
-                firstName: '',
-                lastName: '',
-                fullName: ''
+                first_name: '',
+                last_name: '',
+                full_name: ''
             }
         }
     ];
@@ -161,17 +161,17 @@ describe('Parsing names', function() {
         {
             name: 'John & Peggy Sue',
             result: {
-                fullName: 'Peggy Sue'
+                full_name: 'Peggy Sue'
             }
         }, {
             name: 'John and Peggy Sue',
             result: {
-                fullName: 'Peggy Sue'
+                full_name: 'Peggy Sue'
             }
         }, {
             name: 'Jane and Mr. William R. De La Cruz III',
             result: {
-                fullName: 'Mr. William R. De La Cruz III'
+                full_name: 'Mr. William R. De La Cruz III'
             }
         }
     ];
@@ -180,52 +180,52 @@ describe('Parsing names', function() {
         {
             address: '123 W. Happy Day Blvd., San Francisco, CA  90501',
             result: {
-                address: '123 W. Happy Day Blvd.',
+                street: '123 W. Happy Day Blvd.',
                 city: 'San Francisco',
                 state: 'CA',
                 zip: '90501',
-                fullAddress: '123 W. Happy Day Blvd., San Francisco, CA  90501'
+                full_address: '123 W. Happy Day Blvd., San Francisco, CA  90501'
             }
         }, {
-            address: '123 Happy Street, Honolulu, HI  65780',
+            address: '123 Happy Street, Honolulu, HI  Nigeria',
             result: {
-                address: '123 Happy Street',
+                street: '123 Happy Street',
                 city: 'Honolulu',
                 state: 'HI',
-                zip: '65780',
-                fullAddress: '123 Happy Street, Honolulu, HI  65780'
+                country: 'NG',
+                full_address: '123 Happy Street, Honolulu, HI  Nigeria'
             }
         }, {
             address: '123 Happy Street, Suite #101, Honolulu, HI  65780',
             result: {
-                address: '123 Happy Street, Suite #101',
+                street: '123 Happy Street, Suite #101',
                 city: 'Honolulu',
                 state: 'HI',
                 zip: '65780',
-                fullAddress: '123 Happy Street, Suite #101, Honolulu, HI  65780'
+                full_address: '123 Happy Street, Suite #101, Honolulu, HI  65780'
             }
         }
     ];
 
     it('Should parse all name attributes', function() {
-        names.forEach(function(name, i, list){
-            var parsed = human.parseName(name.name);
+        names.forEach(function(name, i, list) {
+            var parsed = parser.name(name.name);
 
             expect(name.result).to.eql(parsed);
         });
     });
 
     it('Should parse fullest name', function() {
-        fullest.forEach(function(name, i, list){
-            var fullName = human.getFullestName(name.name);
+        fullest.forEach(function(name, i, list) {
+            var full_ame = parser.get_fullest_name(name.name);
 
-            expect(name.result.fullName).to.eql(fullName);
+            expect(name.result.full_name).to.eql(full_ame);
         });
     });
 
     it('Should parse all address attributes', function() {
-        addresses.forEach(function(address, i, list){
-            var parsed = human.parseAddress(address.address);
+        addresses.forEach(function(address, i, list) {
+            var parsed = parser.address(address.address);
 
             expect(address.result).to.eql(parsed);
         });

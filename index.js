@@ -172,7 +172,7 @@ parser.parse_address = function(str) {
 
     city = parts.shift()
 
-    address.address = parts.reverse().join(', ')
+    address.street = parts.reverse().join(', ')
     address.city = city
     address.state = others[0]
 

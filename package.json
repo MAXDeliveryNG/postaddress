@@ -1,25 +1,29 @@
 {
-  "name": "postaddress",
-  "version": "1.0.0",
-  "description": "postaddress =========",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MAXDeliveryNG/postaddress.git"
-  },
-  "author": "Bernard Ojengwa <bernardojengwa@gmail.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/MAXDeliveryNG/postaddress/issues"
-  },
-  "homepage": "https://github.com/MAXDeliveryNG/postaddress#readme",
-  "dependencies": {
-    "underscore": "^1.8.3"
-  }
+    "name": "postaddress",
+    "version": "1.0.0",
+    "description": "postaddress =========",
+    "main": "index.js",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "test": "mocha"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/MAXDeliveryNG/postaddress.git"
+    },
+    "author": "Bernard Ojengwa <bernardojengwa@gmail.com>",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/MAXDeliveryNG/postaddress/issues"
+    },
+    "homepage": "https://github.com/MAXDeliveryNG/postaddress#readme",
+    "dependencies": {
+        "underscore": "^1.8.3"
+    },
+    "devDependencies": {
+        "chai": "~1.9.1",
+        "mocha": "~1.19.0"
+    }
 }

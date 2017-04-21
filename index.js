@@ -1,9 +1,9 @@
 'use strict'
 
 const _ = require('underscore')
-const parser = module.exports = {}
 const country = require('./country')
 
+const parser = module.exports = {}
 
 const capitalize = str => str.length ? str[0].toUpperCase() + str.substr(1).toLowerCase() : ''
 
@@ -181,7 +181,7 @@ parser.address = function(str) {
     if (Number.isSafeInteger(parseFloat(last))) {
         address.zip = last
     } else {
-        address.country = country[capitalize(last)]
+        address.country = last ? country[capitalize(last)] : ''
     }
 
 
